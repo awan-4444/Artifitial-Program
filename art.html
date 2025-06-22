@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frind the number</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #ffffff; }
+        #chatbox { width: 400px; margin: 40px auto; background: #d0ff00; padding: 20px; border-radius: 8px; }
+        #messages { height: 200px; overflow-y: auto; border: 1px solid #000000; padding: 10px; margin-bottom: 10px; }
+        #userInput { width: 80%; padding: 8px; }
+        #sendBtn { padding: 8px 16px; }
+        .user { color: rgb(255, 0, 212); }
+        .ai { color: rgb(68, 0, 255); }
+    </style>
+</head>
+<body>
+    <div id="chatbox">
+        <h2>Artifitial intaligent</h2>
+        <div id="messages"></div>
+        <input type="text" id="userInput" placeholder="Type your message..." />
+        <button id="sendBtn">Send</button>
+    </div>
+    <script>
+        const messages = document.getElementById('messages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        function appendMessage(sender, text) {
+            const msg = document.createElement('div');
+            msg.className = sender;
+            msg.textContent = (sender === 'user' ? 'You: ' : 'AI: ') + text;
+            messages.appendChild(msg);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function getAIResponse(input) {
+            input = input.toLowerCase();
+            if (input.includes('hello') || input.includes('hi')) {
+                return "Hello! How can I help you today?";
+            } else if (input.includes('name')) {
+                return "I'm a simple AI chatbot.";
+            } else if (input.includes('weather')) {
+                return "I can't check the weather, but I hope it's nice!";
+            } else if (input.includes('bye')) {
+                return "Goodbye! Have a great day!";
+            } else {
+                return "Sorry, I don't understand. Can you ask something else?";
+            }
+        }
+
+        sendBtn.onclick = function() {
+            const text = userInput.value.trim();
+            if (text) {
+                appendMessage('user', text);
+                setTimeout(() => {
+                    const response = getAIResponse(text);
+                    appendMessage('ai', response);
+                }, 500);
+                userInput.value = '';
+            }
+        };
+
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') sendBtn.click();
+        });
+    </script>
+</body>
+</html>
